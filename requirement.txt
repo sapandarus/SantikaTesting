@@ -1,0 +1,4 @@
+robotframework==4.1.3
+selenium==4.1.0
+robotframework-seleniumlibrary==6.0.0
+WatchUI==1.0.7
