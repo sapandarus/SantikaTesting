@@ -5,7 +5,9 @@ Library           SeleniumLibrary
 Suite Setup       Open Browser    ${URL}    ${BROWSER}
 Suite Teardown    Close All Browsers
 
-
+*** Keywords ***
+Test Email Error
+    Should Be Equal As Strings    Get Text    //input[@aria-label="Email Address"]/../../../div[2]/div/div/div    E-mail is required
 *** Variables ***
 ${URL}            https://web.santikadev.com/
 ${BROWSER}        Chrome
@@ -31,6 +33,10 @@ ${PRIVACY}    //div[contains(concat(" ", normalize-space(@class), " "), "tnc-pay
 ${BOOKING_BUTTON}    //button[@class="custom v-btn v-btn--block v-btn--flat theme--dark"]
 ${BOOKING_SUCCESS}    //div[@class="v-card__actions align-center v-card-button"]/button
 
+${ERROR_EMAIL_PATH}    //input[@aria-label="Email Address"]/../../../div[2]/div/div/div
+${FIRST_NAME_PATH}    //input[@aria-label="First Name"]/../../../div[2]/div/div/div
+${PHONE_PATH}    //input[@placeholder="Phone Number"]/../../p
+
 *** Test Cases ***
 Sample test
     [Documentation]    This test create non login booking
@@ -53,6 +59,16 @@ Sample test
     Click Element    ${CONTACT_DETAIL_ACCORDION}
     Wait Until Element Is Visible    ${EMAIL_ADDRESS}
     Wait Until Element Is Enabled    ${EMAIL_ADDRESS}
+    Click Element    ${EMAIL_ADDRESS}
+    Click Element    ${FIRST_NAME}
+    Sleep    1
+    Element Text Should Be    ${ERROR_EMAIL_PATH}    E-mail is required
+    Click Element    ${PHONE_NUMBER}
+    Sleep    1
+    Element Text Should Be    ${FIRST_NAME_PATH}    Name is required
+    Click Element    ${EMAIL_ADDRESS}
+    Sleep    1
+    Element Text Should Be    ${PHONE_PATH}    Phone number is required
     Input Text    ${EMAIL_ADDRESS}    ${EMAIL_ADDRESS_TEXT}    
     Input Text    ${FIRST_NAME}    ${FIRST_NAME_TEXT}
     Input Text    ${PHONE_NUMBER}    ${PHONE_NUMBER_TEXT}
